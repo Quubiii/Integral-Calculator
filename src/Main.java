@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -22,6 +21,7 @@ public class Main {
                     double upperLimit = scanner.nextDouble();
                     Integral.trapezoidalMethod(lowerLimit, upperLimit, function);
                     Integral.monteCarlo(function, lowerLimit, upperLimit);
+                    Integral.rectangularMethod(function, lowerLimit, upperLimit);
                     flag = false;
                     break;
                 case "n":

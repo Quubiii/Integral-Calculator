@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Integral {
     private float lowerLimit;
     private float upperLimit;
@@ -46,6 +44,7 @@ public class Integral {
     }
 
     public static void monteCarlo(Function function, double minX, double maxX) {
+        String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         double minY = Double.MAX_VALUE;
         double maxY = -Double.MAX_VALUE;
         int samplePoints = 10000;
@@ -64,7 +63,6 @@ public class Integral {
         for (int i = 0; i < totalPoints; i++) {
             double xOfPoint = minX + Math.random() * (maxX - minX);
             double yOfPoint = minY + Math.random() * (maxY - minY);
-
             int position = Function.aboveOrBeneath(xOfPoint, function, yOfPoint);
 
             if ((Function.functionValue(function, xOfPoint) >= 0 && position == -1) ||
@@ -74,10 +72,22 @@ public class Integral {
         }
 
         double integral = ((double) pointsUnderCurve / totalPoints) * area;
-        System.out.println("Calculated integral (monteCarlo): " + integral);
+        System.out.println("Calculated integral (" + methodName + "): " + integral);
     }
 
+    public static void rectangularMethod(Function function, double lowerLimit, double upperLimit) {
+        String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 
+        int n = 1000;
+        double deltaX = (upperLimit - lowerLimit) / n;
+        double integral = 0;
+
+        for (int i = 0; i < n; i++) {
+            double x = lowerLimit + (i + 0.5) * deltaX;
+            integral += deltaX * Function.functionValue(function, x); // Add the area of the rectangle
+        }
+        System.out.println("Calculated integral (" + methodName + "): " + integral);
+    }
 
 }
 
